@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR code generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #9cc3d5ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .grid {
+            background: #0063B2FF;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        select,
+        textarea,
+        input[type="submit"] {
+            width: calc(100% - 20px);
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            background-color: #d69872;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #171515;
+        }
+
+        #img {
+            margin-top: 20px;
+            max-width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="grid">
+        <h1 align="center">QR CODE GENERATOR</h1>
+        <center> <img src="" id="img" alt=""></center>
+
+        <select id="size">
+            <option value="200">200*200</option>
+            <option value="300">300*300</option>
+            <option value="400" selected>400*400</option>
+            <option value="500">500*500</option>
+            <option value="600">600*600</option>
+        </select>
+        <br><br>
+        <textarea placeholder="Enter your text" id="qrtext"></textarea>
+        <br><br>
+        <input type="submit" value="Generate" onclick="GenQrCode()">
+
+    </div>
+
+    <!--javascript-->
+    <script type="text/javascript">
+        function GenQrCode() {
+            var def_url = ' https://github.com/nsourabh321/Html-css-Js-projects/commits?author=nsourabh321';
+            var gapi = "https://api.qrserver.com/v1/create-qr-code/?size=";
+            var myimg = document.getElementById("img");
+            var mytext = document.getElementById("qrtext").value;
+            var mysize = document.getElementById("size").value;
+            if (mytext !== "" && mysize == "400") {
+                myimg.src = gapi + "400x400" + "&data=" + mytext;
+            } else if (mytext !== "" && mysize == "200") {
+                myimg.src = gapi + "200x200" + "&data=" + mytext;
+            }
+            else if (mytext !== "" && mysize == "300") {
+                myimg.src = gapi + "300x300" + "&data=" + mytext;
+            }
+            else if (mytext !== "" && mysize == "500") {
+                myimg.src = gapi + "500x500" + "&data=" + mytext;
+            }
+            else if (mytext !== "" && mysize == "600") {
+                myimg.src = gapi + "600x600" + "&data=" + mytext;
+            }
+            else{
+                myimg.src = gapi + "400x400" + "&data=" + def_url;
+                alert("no text entered in the textbox Scan to go to my github");
+            }
+        }
+    </script>
+</body>
+
+</html>
