@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Labeler</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background:linear-gradient(to right,orange,blueviolet);
+            font-family: sans-serif;
+        }
+
+        .container {
+            width: 600px;
+            padding: 2em;
+        }
+
+        input {
+            width: 100%;
+            height: 60px;
+            padding: 10px;
+            display: block;
+            outline: none;
+        }
+
+        .output {
+            margin-top: 2em;
+        }
+
+        /* JavaScript */
+        .todo {
+            border-left: 4px solid rgb(38, 147, 50);
+            color: rgb(75, 75, 75);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1em;
+            font-size: 1em;
+            background-color: white;
+            padding: 10px 20px;
+        }
+
+        .delete {
+            color: blueviolet;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .message-container {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 2rem;
+            background-color: white;
+            padding: 20px;
+            transform: translateX(0);
+            visibility: hidden;
+            transition: transform 1s ease;
+        }
+
+        .success {
+            transform: translateX(100px);
+            visibility: visible;
+            background-color: rgb(34, 187, 51);
+            color: white;
+        }
+
+        .error {
+            transform: translateX(100px);
+            visibility: visible;
+            background-color: rgb(223, 71, 89);
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="container">
+        <form>
+            <input type="text" placeholder="Enter a Label(press enter to save)"  />
+        </form>
+        <div class="output"></div>
+    </section>
+
+    <div class="message-container">Item Deleted</div>
+
+    <script type="text/JavaScript">
+let form = document.querySelector("form");
+let input = document.querySelector("input");
+let output = document.querySelector(".output");
+let message = document.querySelector(".message-container");
+
+function getTodo(value) {
+  let todo = document.createElement("div");
+  let textEl = document.createElement("span");
+  textEl.innerHTML = value;
+  todo.appendChild(textEl);
+  message.classList.toggle("success");
+  message.textContent = "Item Added";
+
+  setTimeout(() => {
+    message.classList.toggle("success");
+  }, 2000);
+
+  let closeEl = document.createElement("span");
+  closeEl.innerHTML = "&times;";
+  closeEl.classList.add("delete");
+
+  closeEl.addEventListener("click", () => {
+    output.removeChild(todo);
+    message.classList.toggle("error");
+    message.textContent = "Item Deleted";
+
+    setTimeout(() => {
+      message.classList.toggle("error");
+    }, 2000);
+  });
+
+  todo.appendChild(closeEl);
+  todo.classList.add("todo");
+  return todo;
+}
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  let value = input.value;
+  if (!value.trim()) return;
+  output.appendChild(getTodo(value));
+  input.value = "";
+});
+      </script>
+</body>
+
+</html>
