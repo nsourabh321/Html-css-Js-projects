@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status Verifier</title>
+    <style>
+         *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+         }
+         body{
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            background: linear-gradient(to right,#52b3a1,#1efa14);
+         }
+         .container{
+            max-width: 500px;
+            margin: 250px auto;
+            background-color: #f2f2f2;
+            padding:20px;
+            border-radius:8px;
+            box-shadow: 0 2px 23px rgba(90,20,2,0.2);
+         }
+         h1{
+            text-align:center;
+            margin-bottom: 20px;
+         }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Internet Verifier</h1>
+        <div class="status">
+            <p><strong>Connection Status:</strong><span id="statusText">Checking...</span></p>
+            <p><strong>IP Address:</strong><span id="addressText">-</span></p>
+            <p><strong>Network Strength:</strong><span id="networkText">-</span></p>
+        </div>
+    </div>
+
+    <!--javascript-->
+     <script type="text/javascript">
+        window.addEventListener("load",checkInternetConnection);
+
+        function checkInternetConnection(){
+            const statusText = document.getElementById('statusText');
+            const ipText = document.getElementById('addressText');
+            const netText = document.getElementById('networkText');
+
+            statusText.textContent="Checking....";
+
+            if(navigator.onLine){
+                fetch('https://api.ipify.org?format=json')
+                .then((response)=>response.json())
+                .then((data)=>{
+                    ipText.textContent = data.ip;
+                    statusText.textContent = 'Connected';
+                    const connection = navigator.connection;
+                    const networkStrength = connection?connection.downlink+'Mbps':'Unknown';
+                    networkText.textContent = networkStrength;
+                })
+            }else{
+                statusText.textContent = 'Disconnected';
+                ipText.textContent ='-';
+                networkText.textContent ='-';
+            }
+        }
+     </script>
+</body>
+</html>
