@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI cALCULATOR</title>
+    <style>
+        body{
+            background-color: antiquewhite;
+        }
+        .container{
+            max-width: 400px;
+            margin: 200px auto;
+            padding: 20px;
+            background-color: blanchedalmond;
+            border:2px solid black;
+            border-radius:5px;
+            box-shadow: 2px 10px 10px black;
+        }
+        h2{
+            margin-top: 0;
+            color: black;
+            text-align: center;
+            text-decoration: underline;
+        }
+        form{
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        label{
+            font-size: large;
+            font-weight:  600px;
+            margin-bottom: 5px;
+            color:black;
+        }
+        input[type="number"],select{
+            width: 95%;
+            padding: 10px;
+            border: none;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+            margin-bottom: 10px;
+            
+        }
+        input[type="number"],select:focus{
+            outline:none;
+            box-shadow: 0px 0px 5px #5784e5;
+        }
+        select{
+            width: 100%;
+        }
+        input[type="submit"]{
+            padding: 10px;
+            margin-top: 10px;
+            background-color: blue;
+            border: none;
+            color:whitesmoke;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover{
+            background-color: aquamarine;
+        }
+        #result{
+            font-weight: bold;
+            margin-top: 20px;
+            color:#5784e5
+        }
+    </style>
+</head>
+<body>
+      <div class="container">
+        <h2>BMI Calculator</h2>
+        <form  id="bmiForm">
+            <label for="gender">Gender:</label>
+            <select name="gender" id="gender" required>
+                    <option value="male"> Male </option>
+                    <option value="female"> Female </option>
+            </select>
+
+            <label for="age" > Age </label>
+            <input type="number" id="age" placeholder="Enter Age" required>
+            <label for="heigth-feet">Height:</label>
+            <input type="number" id="height-feet" placeholder="Feet" required>
+            <input type="number" id="height-inches" placeholder="Inches" required>
+
+            <label for="weight">Weight:</label>
+            <input type="number" id="weight" placeholder="Enter weight in kg" required>
+            
+            <input type="submit" value="Calculate BMI">
+        </form>
+        <div id="result"></div>
+      </div>
+
+    <script type="text/javascript">
+          document.getElementById("bmiForm").addEventListener('submit',function(e){
+            e.preventDefault();
+            const gender = document.getElementById('gender').value;
+            const age = parseInt(document.getElementById('age').value);
+            const heightFeet = parseInt(document.getElementById('height-feet').value);
+            var heightInches ;
+            try{
+             heightInches = parseInt(document.getElementById('height-inches').value);
+            }catch(e){
+                alert("error occured");
+            }
+            const weight = parseFloat(document.getElementById('weight').value);
+
+
+            if(gender && age && heightFeet && heightInches && weight){
+               
+                const height = ((heightFeet * 12 )  + heightInches) * 0.0254;
+                const bmi = weight / (height * height);
+                const resultElemet = document.getElementById('result');
+
+                let category = '';
+                if( bmi < 18.5){
+                        category = 'Underweight';
+                }else if(bmi >= 18.5 && bmi < 24.9){
+                       category = 'Normal weight';
+                }else if(bmi >=25 && bmi < 29.9){
+                    category = 'Overweight';
+                }else{
+                    category = 'I am sorry but you are a mountain';
+                }
+
+                let resultMessage = 'Your BMI : ' + bmi.toFixed(2) + '<br>';
+                resultMessage += "Category : " + category;
+                resultElemet.innerHTML = resultMessage;
+
+            }
+          });
+    </script>
+</body>
+</html>
