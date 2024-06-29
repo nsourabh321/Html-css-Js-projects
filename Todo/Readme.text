@@ -1,0 +1,4 @@
+please use some container like apache tomcat for running this projects as it may have some dependencies 
+This projects uses jsp's and ajax.
+To run this project just copy the file in the webapps folder of the tomcat 
+and run locally.
