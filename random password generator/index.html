@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Password Generator</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .options {
+            margin-bottom: 20px;
+        }
+
+        .options label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .options input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        #passwordOutput {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #e0e0e0;
+        }
+
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content:space-evenly;
+        }
+
+        .buttons button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .buttons button:hover {
+            background-color: #0056b3;
+        }
+
+        .buttons button:active {
+            background-color: #004080;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Random Password Generator</h1>
+        <div class="options">
+            <label> Enter desired length : <input type="number" id="length"> </label>
+            <label><input type="checkbox" id="lowercase" checked> Include lowercase (a-z)</label>
+            <label><input type="checkbox" id="uppercase" checked> Include uppercase (A-Z)</label>
+            <label><input type="checkbox" id="numbers" checked> Include numbers (0-9)</label>
+            <label><input type="checkbox" id="symbols" checked> Include symbols (!@#$%^&*)</label>
+        </div>
+        <div class="buttons">
+            <button onclick="generatePassword()">Generate Password</button>
+            <button onclick="copyPassword()">Copy</button>
+        </div>
+        <div id="passwordOutput"></div>
+    </div>
+
+    <script>
+        function generatePassword() {
+            const lowercase = document.getElementById('lowercase').checked;
+            const uppercase = document.getElementById('uppercase').checked;
+            const numbers = document.getElementById('numbers').checked;
+            const symbols = document.getElementById('symbols').checked;
+
+            const lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';
+            const uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const numberChars = '0123456789';
+            const symbolChars = '!@#$%^&*()_+';
+
+            let allChars = '';
+            if (lowercase) allChars += lowercaseChars;
+            if (uppercase) allChars += uppercaseChars;
+            if (numbers) allChars += numberChars;
+            if (symbols) allChars += symbolChars;
+
+            if (allChars === '') {
+                alert('Please select at least one character set.');
+                return;
+            }
+
+            const passwordLength = document.getElementById('length').value;
+            let password = '';
+
+            for (let i = 0; i < passwordLength; i++) {
+                const randomIndex = Math.floor(Math.random() * allChars.length);
+                password += allChars[randomIndex];
+            }
+
+            document.getElementById('passwordOutput').textContent = password;
+        }
+        function copyPassword() {
+            const passwordOutput = document.getElementById('passwordOutput');
+            const password = passwordOutput.textContent;
+
+            if (!password) {
+                alert('No password generated to copy.');
+                return;
+            }
+
+            const textarea = document.createElement('textarea');
+            textarea.value = password;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+
+            alert('Password copied to clipboard!');
+        }
+    </script>
+</body>
+
+</html>
